@@ -1,6 +1,6 @@
 @TNTParking_Backend_HostAddress = http://localhost:5169
 
-GET {{TNTParking_Backend_HostAddress}}/weatherforecast/
+GET {{TNTParking_Backend_HostAddress}}/swagger/
 Accept: application/json
 
 ###

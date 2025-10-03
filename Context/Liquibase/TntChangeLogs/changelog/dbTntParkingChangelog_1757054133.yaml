@@ -1,0 +1,305 @@
+﻿databaseChangeLog:
+ - changeSet:
+     id: add_column_PolygonCoords_To_Area
+     author: liviu.dima
+     changes:
+       - preConditions:
+           - onFail: CONTINUE
+           - not:
+               - columnExists:
+                   tableName: parking.Areas
+                   columnName: PolygonCoords 
+       - addColumn:
+           tableName: parking.Areas
+           columns:
+             - column:
+                 name: PolygonCoords
+                 type: Text
+ - changeSet:
+     id: add_column_UnitId_To_Area
+     author: liviu.dima
+     changes:
+       - preConditions:
+           - onFail: CONTINUE
+           - not:
+               - columnExists:
+                   tableName: parking.Areas
+                   columnName: UnitId 
+       - addColumn:
+           tableName: parking.Areas
+           columns:
+             - column:
+                 name: UnitId
+                 type: INTEGER
+ - changeSet:
+     id: add_column_UnitId_To_AreaIntervals
+     author: liviu.dima
+     changes:
+       - preConditions:
+           - onFail: CONTINUE
+           - not:
+               - columnExists:
+                   tableName: parking.AreaIntervals
+                   columnName: UnitId 
+       - addColumn:
+           tableName: parking.AreaIntervals
+           columns:
+             - column:
+                 name: UnitId
+                 type: INTEGER
+ - changeSet:
+     id: add_column_UnitId_To_Intervals
+     author: liviu.dima
+     changes:
+       - preConditions:
+           - onFail: CONTINUE
+           - not:
+               - columnExists:
+                   tableName: parking.Intervals
+                   columnName: UnitId 
+       - addColumn:
+           tableName: parking.Intervals
+           columns:
+             - column:
+                 name: UnitId
+                 type: INTEGER
+ - changeSet:
+     id: add_column_UnitId_To_Rates
+     author: liviu.dima
+     changes:
+       - preConditions:
+           - onFail: CONTINUE
+           - not:
+               - columnExists:
+                   tableName: parking.Rates
+                   columnName: UnitId 
+       - addColumn:
+           tableName: parking.Rates
+           columns:
+             - column:
+                 name: UnitId
+                 type: INTEGER
+ - changeSet:
+     id: add_column_UnitId_To_Subscriptions
+     author: liviu.dima
+     changes:
+       - preConditions:
+           - onFail: CONTINUE
+           - not:
+               - columnExists:
+                   tableName: parking.Subscriptions
+                   columnName: UnitId 
+       - addColumn:
+           tableName: parking.Subscriptions
+           columns:
+             - column:
+                 name: UnitId
+                 type: INTEGER
+ - changeSet:
+     id: add.AuthServer
+     author: liviu.dima
+     preConditions:
+       - onFail: MARK_RAN
+       - not:
+           - tableExists:
+               tableName: fk_auth_units
+     sql: |-
+       CREATE EXTENSION IF NOT EXISTS postgres_fdw; 
+       CREATE SERVER IF NOT EXISTS AuthServer
+           FOREIGN DATA WRAPPER postgres_fdw
+           OPTIONS (host 'localhost', port '5432', dbname 'TNTAuthenticator');
+           CREATE  USER MAPPING IF NOT EXISTS FOR tntcomputers
+       SERVER AuthServer
+       OPTIONS (user 'tntcomputers', password 'Traxdata13?');
+ - changeSet:
+     id: add.fkUnits
+     author: liviu.dima
+     preConditions:
+       - onFail: MARK_RAN
+       - not:
+           - tableExists:
+               tableName: fkUnits
+     sql: |-
+       CREATE FOREIGN TABLE IF NOT EXISTS fk_auth_units (
+         "Id" INTEGER NOT NULL,
+         "CompanyId" INTEGER,
+         "IsActive" boolean,
+         "Uniqueidentifier" VARCHAR(200)
+         )
+         SERVER AuthServer
+         OPTIONS (table_name 'auth.units');
+         CREATE OR REPLACE VIEW units_view AS
+         SELECT * FROM fk_auth_units;
+ - changeSet:
+     id: add.fkUsers
+     author: liviu.dima
+     preConditions:
+       - onFail: MARK_RAN
+       - not:
+           - tableExists:
+               tableName: fkUsers
+     sql: |-
+       CREATE FOREIGN TABLE IF NOT EXISTS fk_auth_users (
+         "Id" INTEGER NOT NULL,
+         "UnitId" INTEGER NOT NULL,
+         "UserName" VARCHAR(200),
+         "IsActive" boolean
+         )
+         SERVER AuthServer
+         OPTIONS (table_name 'auth.users');
+         CREATE OR REPLACE VIEW users_view AS
+         SELECT * FROM fk_auth_users;
+ - changeSet:
+     id: add.fk_addresses
+     author: liviu.dima
+     preConditions:
+       - onFail: MARK_RAN
+       - not:
+           - tableExists:
+               tableName: fk_auth_addresses
+     sql: |-
+       CREATE FOREIGN TABLE IF NOT EXISTS fk_auth_addresses (
+         "Id" integer,
+         "UnitId" integer,
+         "Country" character varying(200) ,
+         "County" character varying(200) ,
+         "Settlement" character varying(200) ,
+         "Village" character varying(200) ,
+         "Street" character varying(200) ,
+         "Number" character varying(20) ,
+         "Block" character varying(20) ,
+         "Sector" character varying(20) ,
+         "Floor" character varying(20) ,
+         "Apartment" character varying(20) ,
+         "NumberInt" integer,
+         "CountryCode" integer,
+         "CountyCode" integer,
+         "SettlementCode" integer,
+         "StreetCode" integer,
+         "PostalCode" character varying(20) ,
+         "Latitude" numeric(10,4),
+         "Longitude" numeric(10,4),
+         "Type" integer,
+         "Stair" character varying(10) 
+         )
+         SERVER AuthServer
+         OPTIONS (table_name 'auth.addresses');
+         CREATE OR REPLACE VIEW addresses_view AS
+         SELECT * FROM fk_auth_addresses;
+ - changeSet:
+    id: parking_spaces
+    author: liviu.dima
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: ParkingSpaces_pkey
+            name: Id
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: IdArea
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: PolygonCoords
+            type: TEXT
+        tableName: parking.ParkingSpaces
+ - changeSet:
+    id: add_Fk_AreaParkingSpace
+    author: dimal (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: IdArea
+        baseTableName: parking.ParkingSpaces
+        constraintName: fk_AreaParkingSpace_Area
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: Id
+        referencedTableName: parking.Areas
+        validate: true
+ - changeSet:
+     id: add_column_ParkingSpaces_To_Area
+     author: liviu.dima
+     changes:
+       - preConditions:
+           - onFail: CONTINUE
+           - not:
+               - columnExists:
+                   tableName: parking.Areas
+                   columnName: ParkingSpaces 
+       - addColumn:
+           tableName: parking.Areas
+           columns:
+             - column:
+                 name: ParkingSpaces
+                 type: INTEGER
+ - changeSet:
+    id: parking_days_off
+    author: liviu.dima
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: ParkingDaysOff_pkey
+            name: Id
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: UnitId
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: StartDate
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: EndDate
+            type: TIMESTAMP WITHOUT TIME ZONE
+        tableName: parking.ParkingDaysOff
+ - changeSet:
+     id: add_column_IdAreaType_To_ParkingDaysOff
+     author: liviu.dima
+     changes:
+       - preConditions:
+           - onFail: CONTINUE
+           - not:
+               - columnExists:
+                   tableName: parking.ParkingDaysOff
+                   columnName: IdAreaType 
+       - addColumn:
+           tableName: parking.ParkingDaysOff
+           columns:
+             - column:
+                 name: IdAreaType
+                 type: INTEGER
+ - changeSet:
+    id: add_Fk_AreaParkingDaysOff
+    author: dimal (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: IdAreaType
+        baseTableName: parking.ParkingDaysOff
+        constraintName: fk_ParkingDaysOff_Area
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: Id
+        referencedTableName: parking.AreaTypes
+        validate: true

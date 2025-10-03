@@ -1,0 +1,16 @@
+﻿//Create
+dotnet ef dbcontext scaffold "Host=20.123.161.143:35432;Database=TNTParking;Username=postgres;Password=Tgd1qSdNl4y4W#%EmXC9" Npgsql.EntityFrameworkCore.PostgreSQL -o Repository -p Context
+
+//del file
+cd Context/Repository & del * & cd .. & cd .. & dotnet ef dbcontext scaffold "Host=localhost:5439;Database=TNTParking;Username=tntcomputers;Password=Traxdata13?" Npgsql.EntityFrameworkCore.PostgreSQL -o Repository -p Context  --no-build --msbuildprojectextensionspath "D:\Proiecte\TNT_EcoIslands\TNT_EcoIslands-Backend\obj\Context.csproj.EntityFrameworkCore.targets" 
+
+
+//for docker
+cd Context/Repository & del * & cd .. & cd .. & dotnet ef dbcontext scaffold "Host=localhost:5439;Database=TNTParking;Username=tntcomputers;Password=Traxdata13?" Npgsql.EntityFrameworkCore.PostgreSQL -o Repository -p Context --no-build --startup-project Context/Context.csproj
+
+//for docker server
+cd Context/Repository & del * & cd .. & cd .. & dotnet ef dbcontext scaffold "Host=192.168.1.22:5439;Database=TNTParking;Username=tntcomputers;Password=Traxdata13?" Npgsql.EntityFrameworkCore.PostgreSQL -o Repository -p Context --no-build --startup-project Context/Context.csproj
+
+cd Context/Repository & del * & cd .. & cd .. & dotnet ef dbcontext scaffold "Host=20.123.161.143:35432;Database=TNTParking;Username=postgres;Password=Tgd1qSdNl4y4W#%EmXC9" Npgsql.EntityFrameworkCore.PostgreSQL -o Repository -p Context --no-build --startup-project Context/Context.csproj
+
+Host=10.5.0.2:5432

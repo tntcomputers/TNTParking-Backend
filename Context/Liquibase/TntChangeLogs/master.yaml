@@ -1,0 +1,6 @@
+databaseChangeLog:
+  #init
+  - include:
+      file: dbTntParking.Init.yaml
+  - includeAll:
+      path: changelog/

@@ -1,0 +1,236 @@
+databaseChangeLog:
+- changeSet:
+    id: area_types
+    author: liviu.dima
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+                nullable: false
+                primaryKey: true
+                primaryKeyName: AreaTypes_pkey
+            name: Id
+            type: INTEGER
+        - column:
+            constraints:
+                nullable: false
+            name: UnitId
+            type: INTEGER
+        - column:
+            constraints:
+                nullable: false
+            name: Name
+            type: VARCHAR(250)
+        tableName: parking.AreaTypes
+- changeSet:
+    id: 1756968044254-1
+    author: dimal (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: AreaIntervals_pkey
+            name: Id
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: IdAreaType
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: IdInterval
+            type: INTEGER
+        tableName: parking.AreaIntervals
+- changeSet:
+    id: 1756968044254-2
+    author: dimal (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: Areas_pkey
+            name: Id
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: IdType
+            type: Integer
+        - column:
+            constraints:
+              nullable: false
+            name: Name
+            type: VARCHAR(500)
+        - column:
+            constraints:
+              nullable: false
+            name: Address
+            type: Text
+        - column:
+            constraints:
+              nullable: false
+            name: Latitude
+            type: Numeric(18,2)
+        - column:
+            constraints:
+              nullable: false
+            name: Longitude
+            type: Numeric(18,2)
+        tableName: parking.Areas
+- changeSet:
+    id: 1756968044254-3
+    author: dimal (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: Intervals_pkey
+            name: Id
+            type: INTEGER
+        - column:
+            name: DayOfWeek
+            type: VARCHAR(500)
+        - column:
+            name: FromHour
+            type: VARCHAR(10)
+        - column:
+            name: ToHour
+            type: VARCHAR(10)
+        tableName: parking.Intervals
+- changeSet:
+    id: 1756968044254-4
+    author: dimal (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: Rates_pkey
+            name: Id
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: IdAreaType
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: IdInterval
+            type: INTEGER
+        - column:
+            name: Price
+            type: numeric(18, 2)
+        - column:
+            name: FromDate
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: ToDate
+            type: TIMESTAMP WITHOUT TIME ZONE
+        tableName: parking.Rates
+- changeSet:
+    id: 1756968044254-5
+    author: dimal (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: Subscriptions_pkey
+            name: Id
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: IdAreaType
+            type: INTEGER
+        - column:
+            name: AllDay
+            type: numeric(18, 2)
+        - column:
+            name: AllWeek
+            type: numeric(18, 2)
+        - column:
+            name: AllMonth
+            type: numeric(18, 2)
+        - column:
+            name: AllYear
+            type: numeric(18, 2)
+        - column:
+            name: FromDate
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: ToDate
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: CustomPrice
+            type: numeric(18, 2)
+        tableName: parking.Subscriptions
+- changeSet:
+    id: 1756968044254-6
+    author: dimal (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: IdAreaType
+        baseTableName: parking.AreaIntervals
+        constraintName: fk_AreaIntervals_Area
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: Id
+        referencedTableName: parking.AreaTypes
+        validate: true
+- changeSet:
+    id: 1756968044254-7
+    author: dimal (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: IdInterval
+        baseTableName: parking.AreaIntervals
+        constraintName: fk_AreaIntervals_Interval
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: Id
+        referencedTableName: parking.Intervals
+        validate: true
+- changeSet:
+    id: addFk_Areas_AreaType
+    author: dimal (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: IdType
+        baseTableName: parking.Areas
+        constraintName: fk_Areas_AreaTypes
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: Id
+        referencedTableName: parking.AreaTypes
+        validate: true
+

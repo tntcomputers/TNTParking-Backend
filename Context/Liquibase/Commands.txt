@@ -1,0 +1,30 @@
+//generateChangeLog
+///public///
+liquibase  generateChangeLog --changeLogFile=dbEcoIsland.Init.yaml   --defaultSchemaName=public --defaults-file=liquibase.pgsql.local.properties
+
+//server
+liquibase  generateChangeLog --changeLogFile=dbEcoIsland.Init.yaml   --defaultSchemaName=public --defaults-file=liquibase.pgsql.properties
+
+
+//update
+liquibase  update --changeLogFile=db/changelog/dbEcoIsland.Init.yaml  
+
+
+//update
+liquibase  update --changeLogFile=db.changelog-masterPGSQL.yaml  
+
+liquibase  --defaults-file=liquibaselocal.properties  update 
+
+liquibase  --defaults-file=liquibaselocal.properties  update 
+
+
+//update
+liquibase  --defaults-file=liquibase.pgsql.local.properties  update 
+liquibase  --defaults-file=liquibase.pgsql.properties  update 
+
+//update productie!
+liquibase update
+
+docker build --no-cache -t rep.tntsoftware.ro/tntparkingliquibase:1.0.0.0 -t rep.tntsoftware.ro/tntparkingliquibase:latest .
+docker push rep.tntsoftware.ro/tntparkingliquibase:latest
+docker push rep.tntsoftware.ro/tntparkingliquibase:1.0.0.0
