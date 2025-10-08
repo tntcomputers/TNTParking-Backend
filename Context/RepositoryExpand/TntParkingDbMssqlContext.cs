@@ -123,7 +123,7 @@ namespace Context.Repository
 
                 entity.ToTable("parking.Intervals");
 
-                entity.Property(e => e.DayOfWeek).HasMaxLength(500);
+                entity.Property(e => e.DaysOfWeek).HasMaxLength(500);
                 entity.Property(e => e.FromHour).HasMaxLength(10);
                 entity.Property(e => e.ToHour).HasMaxLength(10);
             });

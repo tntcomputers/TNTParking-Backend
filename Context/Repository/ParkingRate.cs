@@ -18,4 +18,8 @@ public partial class ParkingRate
     public DateTime? ToDate { get; set; }
 
     public int? UnitId { get; set; }
+
+    public virtual ParkingAreaType IdAreaTypeNavigation { get; set; } = null!;
+
+    public virtual ParkingInterval IdIntervalNavigation { get; set; } = null!;
 }

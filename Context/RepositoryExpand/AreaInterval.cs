@@ -15,9 +15,9 @@ namespace Context.Repository
         public int IdInterval { get; set; }
         public int? UnitId { get; set; }
 
-        public Area Area { get; set; }
+        public Area? Area { get; set; }
 
-        public Interval Interval { get; set; }
+        public Interval? Interval { get; set; }
 
         public AreaInterval()
         {

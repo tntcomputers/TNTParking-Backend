@@ -7,6 +7,7 @@ databaseChangeLog:
         columns:
         - column:
             autoIncrement: true
+            generationType: ALWAYS
             constraints:
                 nullable: false
                 primaryKey: true
@@ -32,6 +33,7 @@ databaseChangeLog:
         columns:
         - column:
             autoIncrement: true
+            generationType: ALWAYS
             constraints:
               nullable: false
               primaryKey: true
@@ -57,6 +59,7 @@ databaseChangeLog:
         columns:
         - column:
             autoIncrement: true
+            generationType: ALWAYS
             constraints:
               nullable: false
               primaryKey: true
@@ -97,6 +100,7 @@ databaseChangeLog:
         columns:
         - column:
             autoIncrement: true
+            generationType: ALWAYS
             constraints:
               nullable: false
               primaryKey: true
@@ -104,7 +108,7 @@ databaseChangeLog:
             name: Id
             type: INTEGER
         - column:
-            name: DayOfWeek
+            name: DaysOfWeek
             type: VARCHAR(500)
         - column:
             name: FromHour
@@ -121,6 +125,7 @@ databaseChangeLog:
         columns:
         - column:
             autoIncrement: true
+            generationType: ALWAYS
             constraints:
               nullable: false
               primaryKey: true
@@ -155,6 +160,7 @@ databaseChangeLog:
         columns:
         - column:
             autoIncrement: true
+            generationType: ALWAYS
             constraints:
               nullable: false
               primaryKey: true

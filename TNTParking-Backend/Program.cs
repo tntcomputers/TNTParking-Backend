@@ -64,6 +64,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IAreasService, AreasService>();
 builder.Services.AddScoped<IParkingDaysOffService, ParkingDaysOffService>();
 builder.Services.AddScoped<IAreaTypeService, AreaTypeService>();
+builder.Services.AddScoped<IParkingRatesService, ParkingRatesService>();
 
 builder.Services.AddHttpClient();
 

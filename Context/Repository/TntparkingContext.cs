@@ -189,6 +189,7 @@ public partial class TntparkingContext : DbContext
 
             entity.ToTable("parking.Areas");
 
+            entity.Property(e => e.Id).UseIdentityAlwaysColumn();
             entity.Property(e => e.Latitude).HasPrecision(18, 2);
             entity.Property(e => e.Longitude).HasPrecision(18, 2);
             entity.Property(e => e.Name).HasMaxLength(500);
@@ -204,6 +205,8 @@ public partial class TntparkingContext : DbContext
             entity.HasKey(e => e.Id).HasName("AreaIntervals_pkey");
 
             entity.ToTable("parking.AreaIntervals");
+
+            entity.Property(e => e.Id).UseIdentityAlwaysColumn();
 
             entity.HasOne(d => d.IdAreaTypeNavigation).WithMany(p => p.ParkingAreaIntervals)
                 .HasForeignKey(d => d.IdAreaType)
@@ -222,6 +225,7 @@ public partial class TntparkingContext : DbContext
 
             entity.ToTable("parking.AreaTypes");
 
+            entity.Property(e => e.Id).UseIdentityAlwaysColumn();
             entity.Property(e => e.Name).HasMaxLength(250);
         });
 
@@ -231,7 +235,8 @@ public partial class TntparkingContext : DbContext
 
             entity.ToTable("parking.Intervals");
 
-            entity.Property(e => e.DayOfWeek).HasMaxLength(500);
+            entity.Property(e => e.Id).UseIdentityAlwaysColumn();
+            entity.Property(e => e.DaysOfWeek).HasMaxLength(500);
             entity.Property(e => e.FromHour).HasMaxLength(10);
             entity.Property(e => e.ToHour).HasMaxLength(10);
         });
@@ -242,6 +247,7 @@ public partial class TntparkingContext : DbContext
 
             entity.ToTable("parking.ParkingDaysOff");
 
+            entity.Property(e => e.Id).UseIdentityAlwaysColumn();
             entity.Property(e => e.EndDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.StartDate).HasColumnType("timestamp without time zone");
 
@@ -256,6 +262,8 @@ public partial class TntparkingContext : DbContext
 
             entity.ToTable("parking.ParkingSpaces");
 
+            entity.Property(e => e.Id).UseIdentityAlwaysColumn();
+
             entity.HasOne(d => d.IdAreaNavigation).WithMany(p => p.ParkingParkingSpaces)
                 .HasForeignKey(d => d.IdArea)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -268,9 +276,20 @@ public partial class TntparkingContext : DbContext
 
             entity.ToTable("parking.Rates");
 
+            entity.Property(e => e.Id).UseIdentityAlwaysColumn();
             entity.Property(e => e.FromDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.Price).HasPrecision(18, 2);
             entity.Property(e => e.ToDate).HasColumnType("timestamp without time zone");
+
+            entity.HasOne(d => d.IdAreaTypeNavigation).WithMany(p => p.ParkingRates)
+                .HasForeignKey(d => d.IdAreaType)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_Rates_Area");
+
+            entity.HasOne(d => d.IdIntervalNavigation).WithMany(p => p.ParkingRates)
+                .HasForeignKey(d => d.IdInterval)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_Rates_Interval");
         });
 
         modelBuilder.Entity<ParkingSubscription>(entity =>
@@ -279,6 +298,7 @@ public partial class TntparkingContext : DbContext
 
             entity.ToTable("parking.Subscriptions");
 
+            entity.Property(e => e.Id).UseIdentityAlwaysColumn();
             entity.Property(e => e.AllDay).HasPrecision(18, 2);
             entity.Property(e => e.AllMonth).HasPrecision(18, 2);
             entity.Property(e => e.AllWeek).HasPrecision(18, 2);

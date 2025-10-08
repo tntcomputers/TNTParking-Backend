@@ -10,7 +10,7 @@ namespace Context.Repository
     {
         public int Id { get; set; }
 
-        public string? DayOfWeek { get; set; }
+        public string? DaysOfWeek { get; set; }
 
         public string? FromHour { get; set; }
 
@@ -25,7 +25,7 @@ namespace Context.Repository
         {
             this.Id = parkingInterval.Id;
             this.UnitId = parkingInterval.UnitId;
-            this.DayOfWeek = parkingInterval.DayOfWeek;
+            this.DaysOfWeek = parkingInterval.DaysOfWeek;
             this.FromHour = parkingInterval.FromHour;
             this.ToHour = parkingInterval.ToHour;
         }
@@ -37,7 +37,7 @@ namespace Context.Repository
         {
             this.Id = parkingInterval.Id;
             this.UnitId = parkingInterval.UnitId;
-            this.DayOfWeek = parkingInterval.DayOfWeek;
+            this.DaysOfWeek = parkingInterval.DaysOfWeek;
             this.FromHour = parkingInterval.FromHour;
             this.ToHour = parkingInterval.ToHour;
         }

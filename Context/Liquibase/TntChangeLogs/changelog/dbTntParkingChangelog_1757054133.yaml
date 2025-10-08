@@ -194,6 +194,7 @@
         columns:
         - column:
             autoIncrement: true
+            generationType: ALWAYS
             constraints:
               nullable: false
               primaryKey: true
@@ -250,6 +251,7 @@
         columns:
         - column:
             autoIncrement: true
+            generationType: ALWAYS
             constraints:
               nullable: false
               primaryKey: true
@@ -302,4 +304,34 @@
         onUpdate: NO ACTION
         referencedColumnNames: Id
         referencedTableName: parking.AreaTypes
+        validate: true
+ - changeSet:
+    id: add_Fk_AreaType_Rates
+    author: dimal (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: IdAreaType
+        baseTableName: parking.Rates
+        constraintName: fk_Rates_Area
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: Id
+        referencedTableName: parking.AreaTypes
+        validate: true
+ - changeSet:
+    id: add_Fk_Interval_Rates
+    author: dimal (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: IdInterval
+        baseTableName: parking.Rates
+        constraintName: fk_Rates_Interval
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: Id
+        referencedTableName: parking.Intervals
         validate: true
