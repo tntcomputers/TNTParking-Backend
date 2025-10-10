@@ -33,6 +33,8 @@ public partial class TntparkingContext : DbContext
 
     public virtual DbSet<ParkingAreaType> ParkingAreaTypes { get; set; }
 
+    public virtual DbSet<ParkingAreaTypeSubscription> ParkingAreaTypeSubscriptions { get; set; }
+
     public virtual DbSet<ParkingInterval> ParkingIntervals { get; set; }
 
     public virtual DbSet<ParkingParkingDaysOff> ParkingParkingDaysOffs { get; set; }
@@ -227,6 +229,23 @@ public partial class TntparkingContext : DbContext
 
             entity.Property(e => e.Id).UseIdentityAlwaysColumn();
             entity.Property(e => e.Name).HasMaxLength(250);
+        });
+
+        modelBuilder.Entity<ParkingAreaTypeSubscription>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("AreaTypeSubscriptions_pkey");
+
+            entity.ToTable("parking.AreaTypeSubscriptions");
+
+            entity.Property(e => e.Id).UseIdentityAlwaysColumn();
+
+            entity.HasOne(d => d.IdAreaTypeNavigation).WithMany(p => p.ParkingAreaTypeSubscriptions)
+                .HasForeignKey(d => d.IdAreaType)
+                .HasConstraintName("fk_AreaType_AreaTypeSubscriptions");
+
+            entity.HasOne(d => d.IdSubscriptionNavigation).WithMany(p => p.ParkingAreaTypeSubscriptions)
+                .HasForeignKey(d => d.IdSubscription)
+                .HasConstraintName("fk_Subscriptions_AreaTypeSubscriptions");
         });
 
         modelBuilder.Entity<ParkingInterval>(entity =>

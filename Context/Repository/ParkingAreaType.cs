@@ -13,6 +13,8 @@ public partial class ParkingAreaType
 
     public virtual ICollection<ParkingAreaInterval> ParkingAreaIntervals { get; set; } = new List<ParkingAreaInterval>();
 
+    public virtual ICollection<ParkingAreaTypeSubscription> ParkingAreaTypeSubscriptions { get; set; } = new List<ParkingAreaTypeSubscription>();
+
     public virtual ICollection<ParkingArea> ParkingAreas { get; set; } = new List<ParkingArea>();
 
     public virtual ICollection<ParkingParkingDaysOff> ParkingParkingDaysOffs { get; set; } = new List<ParkingParkingDaysOff>();

@@ -65,6 +65,7 @@ builder.Services.AddScoped<IAreasService, AreasService>();
 builder.Services.AddScoped<IParkingDaysOffService, ParkingDaysOffService>();
 builder.Services.AddScoped<IAreaTypeService, AreaTypeService>();
 builder.Services.AddScoped<IParkingRatesService, ParkingRatesService>();
+builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 
 builder.Services.AddHttpClient();
 

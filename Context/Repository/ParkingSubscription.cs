@@ -7,8 +7,6 @@ public partial class ParkingSubscription
 {
     public int Id { get; set; }
 
-    public int IdAreaType { get; set; }
-
     public decimal? AllDay { get; set; }
 
     public decimal? AllWeek { get; set; }
@@ -24,4 +22,8 @@ public partial class ParkingSubscription
     public decimal? CustomPrice { get; set; }
 
     public int? UnitId { get; set; }
+
+    public int? MinutesInterval { get; set; }
+
+    public virtual ICollection<ParkingAreaTypeSubscription> ParkingAreaTypeSubscriptions { get; set; } = new List<ParkingAreaTypeSubscription>();
 }

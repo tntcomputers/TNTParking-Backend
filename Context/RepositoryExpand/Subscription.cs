@@ -10,8 +10,6 @@ namespace Context.Repository
     {
         public int Id { get; set; }
 
-        public int IdAreaType { get; set; }
-
         public decimal? AllDay { get; set; }
 
         public decimal? AllWeek { get; set; }
@@ -25,7 +23,13 @@ namespace Context.Repository
         public DateTime? ToDate { get; set; }
 
         public decimal? CustomPrice { get; set; }
+
+        public int? MinutesInterval { get; set; }
+
         public int? UnitId { get; set; }
+
+        public List<AreaTypeSubscription> AreaTypeSubscriptions { get; set; }
+
         public Subscription()
         {
 
@@ -35,7 +39,6 @@ namespace Context.Repository
         {
             this.Id = subscription.Id;
             this.UnitId = subscription.UnitId;
-            this.IdAreaType = subscription.IdAreaType;
             this.AllDay = subscription.AllDay;
             this.AllWeek = subscription.AllWeek;
             this.AllMonth = subscription.AllMonth;
@@ -43,6 +46,8 @@ namespace Context.Repository
             this.FromDate = subscription.FromDate;
             this.ToDate = subscription.ToDate;
             this.CustomPrice = subscription.CustomPrice;
+            this.MinutesInterval = subscription.MinutesInterval;
+            this.AreaTypeSubscriptions = subscription.ParkingAreaTypeSubscriptions != null ? subscription.ParkingAreaTypeSubscriptions.Select(x => new AreaTypeSubscription(x)).ToList() : new List<AreaTypeSubscription>();
         }
     }
 
@@ -52,7 +57,6 @@ namespace Context.Repository
         {
             this.Id = subscription.Id;
             this.UnitId = subscription.UnitId;
-            this.IdAreaType = subscription.IdAreaType;
             this.AllDay = subscription.AllDay;
             this.AllWeek = subscription.AllWeek;
             this.AllMonth = subscription.AllMonth;
@@ -60,6 +64,7 @@ namespace Context.Repository
             this.FromDate = subscription.FromDate;
             this.ToDate = subscription.ToDate;
             this.CustomPrice = subscription.CustomPrice;
+            this.MinutesInterval = subscription.MinutesInterval;
         }
     }
 }

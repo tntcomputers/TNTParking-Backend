@@ -168,11 +168,6 @@ databaseChangeLog:
             name: Id
             type: INTEGER
         - column:
-            constraints:
-              nullable: false
-            name: IdAreaType
-            type: INTEGER
-        - column:
             name: AllDay
             type: numeric(18, 2)
         - column:
@@ -239,4 +234,55 @@ databaseChangeLog:
         referencedColumnNames: Id
         referencedTableName: parking.AreaTypes
         validate: true
-
+- changeSet:
+    id: 1756968044254-9
+    author: dimal (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            generationType: ALWAYS
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: AreaTypeSubscriptions_pkey
+            name: Id
+            type: INTEGER
+        - column:
+            name: IdAreaType
+            type: INTEGER
+        - column:
+            name: IdSubscription
+            type: INTEGER
+        tableName: parking.AreaTypeSubscriptions
+- changeSet:
+    id: addFk_AreaType_AreaTypeSubscriptions
+    author: dimal (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: IdAreaType
+        baseTableName: parking.AreaTypeSubscriptions
+        constraintName: fk_AreaType_AreaTypeSubscriptions
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: Id
+        referencedTableName: parking.AreaTypes
+        validate: true
+- changeSet:
+    id: addFk_Subscriptions_AreaTypeSubscriptions
+    author: dimal (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: IdSubscription
+        baseTableName: parking.AreaTypeSubscriptions
+        constraintName: fk_Subscriptions_AreaTypeSubscriptions
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: Id
+        referencedTableName: parking.Subscriptions
+        validate: true

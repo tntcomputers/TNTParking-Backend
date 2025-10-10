@@ -335,3 +335,19 @@
         referencedColumnNames: Id
         referencedTableName: parking.Intervals
         validate: true
+ - changeSet:
+     id: add_column_MinutesInterval_To_Subscriptions
+     author: liviu.dima
+     changes:
+       - preConditions:
+           - onFail: CONTINUE
+           - not:
+               - columnExists:
+                   tableName: parking.Subscriptions
+                   columnName: MinutesInterval 
+       - addColumn:
+           tableName: parking.Subscriptions
+           columns:
+             - column:
+                 name: MinutesInterval
+                 type: INTEGER
