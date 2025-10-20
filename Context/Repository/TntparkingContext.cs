@@ -35,9 +35,13 @@ public partial class TntparkingContext : DbContext
 
     public virtual DbSet<ParkingAreaTypeSubscription> ParkingAreaTypeSubscriptions { get; set; }
 
+    public virtual DbSet<ParkingAreasDaysOff> ParkingAreasDaysOffs { get; set; }
+
     public virtual DbSet<ParkingInterval> ParkingIntervals { get; set; }
 
-    public virtual DbSet<ParkingParkingDaysOff> ParkingParkingDaysOffs { get; set; }
+    public virtual DbSet<ParkingParkingDaysClosed> ParkingParkingDaysCloseds { get; set; }
+
+    public virtual DbSet<ParkingParkingPayment> ParkingParkingPayments { get; set; }
 
     public virtual DbSet<ParkingParkingSpace> ParkingParkingSpaces { get; set; }
 
@@ -192,8 +196,8 @@ public partial class TntparkingContext : DbContext
             entity.ToTable("parking.Areas");
 
             entity.Property(e => e.Id).UseIdentityAlwaysColumn();
-            entity.Property(e => e.Latitude).HasPrecision(18, 2);
-            entity.Property(e => e.Longitude).HasPrecision(18, 2);
+            entity.Property(e => e.Latitude).HasPrecision(18, 8);
+            entity.Property(e => e.Longitude).HasPrecision(18, 8);
             entity.Property(e => e.Name).HasMaxLength(500);
 
             entity.HasOne(d => d.IdTypeNavigation).WithMany(p => p.ParkingAreas)
@@ -248,6 +252,21 @@ public partial class TntparkingContext : DbContext
                 .HasConstraintName("fk_Subscriptions_AreaTypeSubscriptions");
         });
 
+        modelBuilder.Entity<ParkingAreasDaysOff>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("AreasDaysOff_pkey");
+
+            entity.ToTable("parking.AreasDaysOff");
+
+            entity.Property(e => e.Id).UseIdentityAlwaysColumn();
+            entity.Property(e => e.EndDate).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.StartDate).HasColumnType("timestamp without time zone");
+
+            entity.HasOne(d => d.IdAreaTypeNavigation).WithMany(p => p.ParkingAreasDaysOffs)
+                .HasForeignKey(d => d.IdAreaType)
+                .HasConstraintName("fk_AreasDaysOff_Area");
+        });
+
         modelBuilder.Entity<ParkingInterval>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("Intervals_pkey");
@@ -260,19 +279,41 @@ public partial class TntparkingContext : DbContext
             entity.Property(e => e.ToHour).HasMaxLength(10);
         });
 
-        modelBuilder.Entity<ParkingParkingDaysOff>(entity =>
+        modelBuilder.Entity<ParkingParkingDaysClosed>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("ParkingDaysOff_pkey");
+            entity.HasKey(e => e.Id).HasName("ParkingDaysClosed_pkey");
 
-            entity.ToTable("parking.ParkingDaysOff");
+            entity.ToTable("parking.ParkingDaysClosed");
 
             entity.Property(e => e.Id).UseIdentityAlwaysColumn();
             entity.Property(e => e.EndDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.StartDate).HasColumnType("timestamp without time zone");
 
-            entity.HasOne(d => d.IdAreaTypeNavigation).WithMany(p => p.ParkingParkingDaysOffs)
+            entity.HasOne(d => d.IdAreaNavigation).WithMany(p => p.ParkingParkingDaysCloseds)
+                .HasForeignKey(d => d.IdArea)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_Area_ParkingDaysClosed");
+        });
+
+        modelBuilder.Entity<ParkingParkingPayment>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("ParkingPayments_pkey");
+
+            entity.ToTable("parking.ParkingPayments");
+
+            entity.Property(e => e.Id).UseIdentityAlwaysColumn();
+            entity.Property(e => e.EndDate).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.StartDate).HasColumnType("timestamp without time zone");
+
+            entity.HasOne(d => d.IdAreaNavigation).WithMany(p => p.ParkingParkingPayments)
+                .HasForeignKey(d => d.IdArea)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_Area_ParkingPayments");
+
+            entity.HasOne(d => d.IdAreaTypeNavigation).WithMany(p => p.ParkingParkingPayments)
                 .HasForeignKey(d => d.IdAreaType)
-                .HasConstraintName("fk_ParkingDaysOff_Area");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_ParkingPayments_AreaTypes");
         });
 
         modelBuilder.Entity<ParkingParkingSpace>(entity =>

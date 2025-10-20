@@ -62,10 +62,12 @@ builder.Services.Configure<AppSettingsTNTParking>(builder.Configuration.GetSecti
 builder.Services.AddSingleton<IDatabaseSettings>(x => x.GetRequiredService<IOptions<ConnectionString>>().Value);
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IAreasService, AreasService>();
-builder.Services.AddScoped<IParkingDaysOffService, ParkingDaysOffService>();
+builder.Services.AddScoped<IAreasDaysOffService, AreasDaysOffService>();
 builder.Services.AddScoped<IAreaTypeService, AreaTypeService>();
 builder.Services.AddScoped<IParkingRatesService, ParkingRatesService>();
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
+builder.Services.AddScoped<IParkingPaymentService, ParkingPaymentService>();
+builder.Services.AddScoped<IParkingDaysClosedService, ParkingDaysClosedService>();
 
 builder.Services.AddHttpClient();
 

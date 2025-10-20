@@ -25,5 +25,9 @@ public partial class ParkingArea
 
     public virtual ParkingAreaType IdTypeNavigation { get; set; } = null!;
 
+    public virtual ICollection<ParkingParkingDaysClosed> ParkingParkingDaysCloseds { get; set; } = new List<ParkingParkingDaysClosed>();
+
+    public virtual ICollection<ParkingParkingPayment> ParkingParkingPayments { get; set; } = new List<ParkingParkingPayment>();
+
     public virtual ICollection<ParkingParkingSpace> ParkingParkingSpaces { get; set; } = new List<ParkingParkingSpace>();
 }

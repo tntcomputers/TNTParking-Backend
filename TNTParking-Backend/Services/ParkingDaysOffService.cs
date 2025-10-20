@@ -5,45 +5,45 @@ using static iTextSharp.text.pdf.AcroFields;
 
 namespace TNTParking_Backend.Services
 {
-    public class ParkingDaysOffService : IParkingDaysOffService
+    public class AreasDaysOffService : IAreasDaysOffService
     {
         private readonly TntparkingContext _appContext;
 
-        public ParkingDaysOffService(TntparkingContext appContext)
+        public AreasDaysOffService(TntparkingContext appContext)
         {
             _appContext = appContext;
         }
 
-        public async Task<IEnumerable<ParkingDaysOff>> AddDaysOff(int unitId, List<ParkingDaysOff> daysOff)
+        public async Task<IEnumerable<AreasDaysOff>> AddDaysOff(int unitId, List<AreasDaysOff> daysOff)
         {
             try
             {
-                var lparkingDaysOff = new List<ParkingParkingDaysOff>();
+                var lAreasDaysOff = new List<ParkingAreasDaysOff>();
 
                 foreach (var item in daysOff)
                 {
                     item.UnitId = unitId;
-                    var parkingDayOff = new ParkingParkingDaysOff();
+                    var parkingDayOff = new ParkingAreasDaysOff();
                     parkingDayOff.Map(item);
-                    if (!_appContext.ParkingParkingDaysOffs.Any(x => x.UnitId == item.UnitId && x.IdAreaType == item.IdAreaType && x.StartDate >= parkingDayOff.StartDate && x.EndDate <= parkingDayOff.EndDate))
+                    if (!_appContext.ParkingAreasDaysOffs.Any(x => x.UnitId == item.UnitId && x.IdAreaType == item.IdAreaType && x.StartDate >= parkingDayOff.StartDate && x.EndDate <= parkingDayOff.EndDate))
                     {
-                        lparkingDaysOff.Add(parkingDayOff);
+                        lAreasDaysOff.Add(parkingDayOff);
                     }
                 }
-                _appContext.ParkingParkingDaysOffs.AddRange(lparkingDaysOff);
+                _appContext.ParkingAreasDaysOffs.AddRange(lAreasDaysOff);
                 _appContext.SaveChanges();
 
-                return lparkingDaysOff.Select(x => new ParkingDaysOff(x));
+                return lAreasDaysOff.Select(x => new AreasDaysOff(x));
             }
             catch (Exception e)
             {
-                return new List<ParkingDaysOff>();
+                return new List<AreasDaysOff>();
             }
         }
 
         public async Task<bool> DeleteDaysOff(int dayOffId)
         {
-            var dayOff = _appContext.ParkingParkingDaysOffs.FirstOrDefault(x => x.Id == dayOffId);
+            var dayOff = _appContext.ParkingAreasDaysOffs.FirstOrDefault(x => x.Id == dayOffId);
 
             if (dayOff != null)
             {
@@ -54,10 +54,10 @@ namespace TNTParking_Backend.Services
             return false;
         }
 
-        public async Task<ParkingDaysOff> EditDayOff(ParkingDaysOff dayOff)
+        public async Task<AreasDaysOff> EditDayOff(AreasDaysOff dayOff)
         {
 
-            var parkingDayOff = new ParkingParkingDaysOff();
+            var parkingDayOff = new ParkingAreasDaysOff();
             parkingDayOff.Map(dayOff);
 
             _appContext.Entry(parkingDayOff).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
@@ -67,22 +67,22 @@ namespace TNTParking_Backend.Services
             return dayOff;
         }
 
-        public async Task<IEnumerable<ParkingDaysOff>> GetParkingDaysOffs(int unitId)
+        public async Task<IEnumerable<AreasDaysOff>> GetAreasDaysOffs(int unitId)
         {
-            return _appContext.ParkingParkingDaysOffs.Where(x => x.UnitId == unitId).Select(x => new ParkingDaysOff(x));
+            return _appContext.ParkingAreasDaysOffs.Where(x => x.UnitId == unitId).Select(x => new AreasDaysOff(x));
         }
 
-        public async Task<IEnumerable<ParkingDaysOff>> EditDaysOff(int unitId, List<ParkingDaysOff> daysOff)
+        public async Task<IEnumerable<AreasDaysOff>> EditDaysOff(int unitId, List<AreasDaysOff> daysOff)
         {
             var daysOffToAdd = daysOff.Where(x => x.Id == 0).ToList();
             var daysOffToEdit = daysOff.Where(x => x.Id > 0).ToList();
-            var daysOffExisting = _appContext.ParkingParkingDaysOffs.Where(x => x.UnitId == unitId).ToList();
+            var daysOffExisting = _appContext.ParkingAreasDaysOffs.Where(x => x.UnitId == unitId).ToList();
             var daysOffToDelete = daysOffExisting.Where(x => !daysOff.Select(y => y.Id).Contains(x.Id)).ToList();
 
             foreach (var dayOff in daysOffToAdd)
             {
                 dayOff.UnitId = unitId;
-                var parkingDayOff = new ParkingParkingDaysOff();
+                var parkingDayOff = new ParkingAreasDaysOff();
                 parkingDayOff.Map(dayOff);
 
                 _appContext.Entry(parkingDayOff).State = Microsoft.EntityFrameworkCore.EntityState.Added;
@@ -92,7 +92,7 @@ namespace TNTParking_Backend.Services
             foreach (var dayOff in daysOffToEdit)
             {
                 dayOff.UnitId = unitId;
-                var parkingDayOff = new ParkingParkingDaysOff();
+                var parkingDayOff = new ParkingAreasDaysOff();
                 parkingDayOff.Map(dayOff);
 
                 _appContext.Entry(parkingDayOff).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
@@ -113,7 +113,7 @@ namespace TNTParking_Backend.Services
         {
             try
             {
-                var dayOff = _appContext.ParkingParkingDaysOffs.FirstOrDefault(x => x.Id == dayOffId);
+                var dayOff = _appContext.ParkingAreasDaysOffs.FirstOrDefault(x => x.Id == dayOffId);
 
                 _appContext.Entry(dayOff).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
                 _appContext.SaveChanges();
@@ -130,9 +130,9 @@ namespace TNTParking_Backend.Services
         {
             try
             {
-                var daysOff = _appContext.ParkingParkingDaysOffs.Where(x => daysOffId.Contains(x.Id));
+                var daysOff = _appContext.ParkingAreasDaysOffs.Where(x => daysOffId.Contains(x.Id));
 
-                _appContext.ParkingParkingDaysOffs.RemoveRange(daysOff);
+                _appContext.ParkingAreasDaysOffs.RemoveRange(daysOff);
                 _appContext.SaveChanges();
 
                 return true;
@@ -143,10 +143,10 @@ namespace TNTParking_Backend.Services
             }
         }
 
-        public async Task<ParkingDaysOff> GetParkingDayOff(int dayOffId)
+        public async Task<AreasDaysOff> GetParkingDayOff(int dayOffId)
         {
-            var dayOff = _appContext.ParkingParkingDaysOffs.FirstOrDefault(x => x.Id == dayOffId);
-            return new ParkingDaysOff(dayOff);
+            var dayOff = _appContext.ParkingAreasDaysOffs.FirstOrDefault(x => x.Id == dayOffId);
+            return new AreasDaysOff(dayOff);
         }
     }
 }

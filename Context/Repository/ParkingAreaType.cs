@@ -17,7 +17,9 @@ public partial class ParkingAreaType
 
     public virtual ICollection<ParkingArea> ParkingAreas { get; set; } = new List<ParkingArea>();
 
-    public virtual ICollection<ParkingParkingDaysOff> ParkingParkingDaysOffs { get; set; } = new List<ParkingParkingDaysOff>();
+    public virtual ICollection<ParkingAreasDaysOff> ParkingAreasDaysOffs { get; set; } = new List<ParkingAreasDaysOff>();
+
+    public virtual ICollection<ParkingParkingPayment> ParkingParkingPayments { get; set; } = new List<ParkingParkingPayment>();
 
     public virtual ICollection<ParkingRate> ParkingRates { get; set; } = new List<ParkingRate>();
 }

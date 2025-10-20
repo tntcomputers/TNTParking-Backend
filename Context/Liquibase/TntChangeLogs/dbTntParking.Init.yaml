@@ -52,9 +52,14 @@ databaseChangeLog:
             type: INTEGER
         tableName: parking.AreaIntervals
 - changeSet:
-    id: 1756968044254-2
+    id: 1756968044254-8
     author: dimal (generated)
     changes:
+    - preConditions:
+        onFail: CONTINUE
+        not:
+          - tableExists:
+              tableName: parking.Areas
     - createTable:
         columns:
         - column:
@@ -85,12 +90,12 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: Latitude
-            type: Numeric(18,2)
+            type: Numeric(18,8)
         - column:
             constraints:
               nullable: false
             name: Longitude
-            type: Numeric(18,2)
+            type: Numeric(18,8)
         tableName: parking.Areas
 - changeSet:
     id: 1756968044254-3

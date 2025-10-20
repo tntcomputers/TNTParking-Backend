@@ -25,7 +25,7 @@ namespace Context.Repository
 
         public List<AreaInterval>? ParkingAreaIntervals { get; set; }
         public List<ParkingSpaces>? ParkingSpacesList { get; set; }
-        public List<ParkingDaysOff>? ParkingDaysOff { get; set; }
+        public List<AreasDaysOff>? AreasDaysOff { get; set; }
         //public AreaTypes? AreaType { get; set; }
 
         public Area()

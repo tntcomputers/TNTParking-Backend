@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Context.Repository;
 
-public partial class ParkingParkingDaysOff
+public partial class ParkingAreasDaysOff
 {
     public int Id { get; set; }
 

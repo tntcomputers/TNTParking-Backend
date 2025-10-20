@@ -255,7 +255,7 @@
             constraints:
               nullable: false
               primaryKey: true
-              primaryKeyName: ParkingDaysOff_pkey
+              primaryKeyName: AreasDaysOff_pkey
             name: Id
             type: INTEGER
         - column:
@@ -273,31 +273,31 @@
               nullable: false
             name: EndDate
             type: TIMESTAMP WITHOUT TIME ZONE
-        tableName: parking.ParkingDaysOff
+        tableName: parking.AreasDaysOff
  - changeSet:
-     id: add_column_IdAreaType_To_ParkingDaysOff
+     id: add_column_IdAreaType_To_AreasDaysOff
      author: liviu.dima
      changes:
        - preConditions:
            - onFail: CONTINUE
            - not:
                - columnExists:
-                   tableName: parking.ParkingDaysOff
+                   tableName: parking.AreasDaysOff
                    columnName: IdAreaType 
        - addColumn:
-           tableName: parking.ParkingDaysOff
+           tableName: parking.AreasDaysOff
            columns:
              - column:
                  name: IdAreaType
                  type: INTEGER
  - changeSet:
-    id: add_Fk_AreaParkingDaysOff
+    id: add_Fk_AreaAreasDaysOff
     author: dimal (generated)
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: IdAreaType
-        baseTableName: parking.ParkingDaysOff
-        constraintName: fk_ParkingDaysOff_Area
+        baseTableName: parking.AreasDaysOff
+        constraintName: fk_AreasDaysOff_Area
         deferrable: false
         initiallyDeferred: false
         onDelete: NO ACTION
@@ -351,3 +351,156 @@
              - column:
                  name: MinutesInterval
                  type: INTEGER
+ - changeSet:
+    id: create_table_parking_Payments
+    author: liviu.dima
+    changes:
+    - preConditions:
+           - onFail: CONTINUE
+           - not:
+               - tableExists:
+                   tableName: parking.ParkingPayments
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            generationType: ALWAYS
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: ParkingPayments_pkey
+            name: Id
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: IdAreaType
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: UnitId
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: IdArea
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: CarPlate
+            type: TEXT
+        - column:
+            constraints:
+              nullable: false
+            name: Telephone
+            type: TEXT
+        - column:
+            constraints:
+              nullable: false
+            name: Email
+            type: TEXT
+        - column:
+            constraints:
+              nullable: false
+            name: StartDate
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: EndDate
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: Status
+            type: Text
+        tableName: parking.ParkingPayments
+ - changeSet:
+    id: add_Fk_ParkingPayments_To_Area
+    author: dimal (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: IdArea
+        baseTableName: parking.ParkingPayments
+        constraintName: fk_Area_ParkingPayments
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: Id
+        referencedTableName: parking.Areas
+        validate: true
+ - changeSet:
+    id: add_Fk_ParkingPayments_To_AreaType
+    author: dimal (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: IdAreaType
+        baseTableName: parking.ParkingPayments
+        constraintName: fk_ParkingPayments_AreaTypes
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: Id
+        referencedTableName: parking.AreaTypes
+        validate: true
+
+ - changeSet:
+    id: create_table_parking_days_closed
+    author: liviu.dima
+    changes:
+    - preConditions:
+           - onFail: CONTINUE
+           - not:
+               - tableExists:
+                   tableName: parking.ParkingDaysClosed
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            generationType: ALWAYS
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: ParkingDaysClosed_pkey
+            name: Id
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: UnitId
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: IdArea
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: StartDate
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: EndDate
+            type: TIMESTAMP WITHOUT TIME ZONE
+        tableName: parking.ParkingDaysClosed
+ - changeSet:
+    id: add_Fk_ParkingDaysClosed_To_Area
+    author: dimal (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: IdArea
+        baseTableName: parking.ParkingDaysClosed
+        constraintName: fk_Area_ParkingDaysClosed
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: Id
+        referencedTableName: parking.Areas
+        validate: true
