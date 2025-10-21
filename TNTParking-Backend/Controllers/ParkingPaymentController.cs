@@ -1,4 +1,6 @@
 ﻿using Context.Repository;
+using DevExtreme.AspNet.Data;
+using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using TNT_ANL_Backend.Services;
@@ -52,6 +54,12 @@ namespace TNTParking_Backend.Controllers
         {
             var parkingDate = Convert.ToDateTime(parkingDateString);
             return Ok(await _parkingPayment.CheckParkingStatus(unitIdentifier, parkingDate, areaTypeid, areaId));
+        }
+
+        [HttpGet("getParkingPayments")]
+        public async Task<ActionResult<ParkingPayment>> GetParkingPayments([FromQuery] DataSourceLoadOptions loadOptions)
+        {
+            return Ok(DataSourceLoader.Load(await _parkingPayment.GetParkingPayments(UNIT_ID), loadOptions));
         }
     }
 }

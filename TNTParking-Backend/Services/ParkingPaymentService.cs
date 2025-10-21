@@ -163,5 +163,10 @@ namespace TNTParking_Backend.Services
             }
             return new KeyValueString(1, "OPEN");
         }
+
+        public async Task<List<ParkingPayment>> GetParkingPayments(int unitId)
+        {
+            return _appContext.ParkingParkingPayments.Where(x => x.UnitId == unitId).Include(x => x.IdAreaNavigation).Include(x => x.IdAreaTypeNavigation).Select(x => new ParkingPayment(x)).ToList();
+        }
     }
 }
