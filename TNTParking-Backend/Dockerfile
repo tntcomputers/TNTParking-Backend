@@ -13,6 +13,8 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["TNTParking-Backend/TNTParking-Backend.csproj", "TNTParking-Backend/"]
+COPY ["TNTParking-Backend/NuGet.config", "TNTParking-Backend/"]
+COPY ["Context/Context.csproj", "Context/"]
 RUN dotnet restore "./TNTParking-Backend/TNTParking-Backend.csproj"
 COPY . .
 WORKDIR "/src/TNTParking-Backend"

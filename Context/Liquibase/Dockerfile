@@ -1,6 +1,6 @@
 # Use the official Liquibase image from Docker Hub
 FROM liquibase/liquibase:latest
-
+RUN liquibase lpm add postgresql --global
 ARG CACHE_DATE=1
 #COPY ./tntchangelogs/auth ./tntchangelogs/auth 
 COPY ["./TntChangeLogs", "./TntChangeLogs"] 

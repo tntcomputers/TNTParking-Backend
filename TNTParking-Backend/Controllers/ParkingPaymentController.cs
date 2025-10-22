@@ -37,10 +37,23 @@ namespace TNTParking_Backend.Controllers
             return Ok(await _parkingPayment.GetSubscription(unitIdentifier, areaTypeId, date));
         }
 
-        [HttpGet("getQrCodeToPay")]
-        public async Task<ActionResult<KeyValueString?>> GetQrCodeToPay([FromQuery] string url, [FromQuery] int areaTypeId, [FromQuery] int areaId)
+        //[HttpGet("getQrCodeToPay")]
+        //public async Task<ActionResult<KeyValueString?>> GetQrCodeToPay([FromQuery] string url, [FromQuery] int areaTypeId, [FromQuery] int areaId)
+        //{
+        //    return Ok(await _parkingPayment.GetQrCodeToPay(UNIT_ID, url, areaTypeId, areaId));
+        //}
+
+        public class MyClass
         {
-            return Ok(await _parkingPayment.GetQrCodeToPay(UNIT_ID, url, areaTypeId, areaId));
+            public string url { get; set; }
+            public int areaTypeId { get; set; }
+            public int areaId { get; set; }
+        }
+
+        [HttpPost("getQrCodeToPay")]
+        public async Task<ActionResult<KeyValueString?>> GetQrCodeToPay([FromBody] MyClass myClass)
+        {
+            return Ok(await _parkingPayment.GetQrCodeToPay(UNIT_ID, myClass.url, myClass.areaTypeId, myClass.areaId));
         }
 
         [HttpPost("addParkingPayment")]

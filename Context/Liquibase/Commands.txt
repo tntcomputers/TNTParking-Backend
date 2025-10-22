@@ -25,6 +25,6 @@ liquibase  --defaults-file=liquibase.pgsql.properties  update
 //update productie!
 liquibase update
 
-docker build --no-cache -t rep.tntsoftware.ro/tntparkingliquibase:1.0.0.0 -t rep.tntsoftware.ro/tntparkingliquibase:latest .
+docker build --no-cache -t rep.tntsoftware.ro/tntparkingliquibase:1.0.0.1 -t rep.tntsoftware.ro/tntparkingliquibase:latest .
 docker push rep.tntsoftware.ro/tntparkingliquibase:latest
-docker push rep.tntsoftware.ro/tntparkingliquibase:1.0.0.0
+docker push rep.tntsoftware.ro/tntparkingliquibase:1.0.0.1
